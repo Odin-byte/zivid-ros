@@ -183,15 +183,15 @@ public:
     m_capture_and_save_client{create_client<zivid_interfaces::srv::CaptureAndSave>(
       "capture_and_save", default_rclcpp_services_qos, m_callback_group)},
     m_capture_service{create_service<std_srvs::srv::Trigger>(
-      "hand_eye_capture",
+      std::string(get_name()) + "/capture",
       std::bind(
-        &HandEyeCalibrationNode::hand_eye_capture_callback, this, std::placeholders::_1,
+        &HandEyeCalibrationNode::capture_callback, this, std::placeholders::_1,
         std::placeholders::_2),
       default_rclcpp_services_qos, m_callback_group)},
     m_calibrate_service{create_service<std_srvs::srv::Trigger>(
-      "hand_eye_calibrate",
+      std::string(get_name()) + "/calibrate",
       std::bind(
-        &HandEyeCalibrationNode::hand_eye_calibrate_callback, this, std::placeholders::_1,
+        &HandEyeCalibrationNode::calibrate_callback, this, std::placeholders::_1,
         std::placeholders::_2),
       default_rclcpp_services_qos, m_callback_group)}
   {
@@ -240,7 +240,7 @@ private:
     std::string message;
   };
 
-  void hand_eye_capture_callback(
+  void capture_callback(
     const std::shared_ptr<std_srvs::srv::Trigger::Request> & /*request*/,
     const std::shared_ptr<std_srvs::srv::Trigger::Response> & response)
   {
@@ -271,7 +271,7 @@ private:
       index, m_capture_service->get_service_name(), m_calibrate_service->get_service_name());
   }
 
-  void hand_eye_calibrate_callback(
+  void calibrate_callback(
     const std::shared_ptr<std_srvs::srv::Trigger::Request> & /*request*/,
     const std::shared_ptr<std_srvs::srv::Trigger::Response> & response) const
   {

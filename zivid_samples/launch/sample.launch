@@ -1,6 +1,7 @@
 <launch>
   <arg name="sample" default=""/>
 
+  <arg name="operation" default=""/>
   <arg name="hand_eye_mode" default=""/>
   <arg name="aruco_ids" default="[-1]"/>  <!-- Empty integer arrays cannot be specified, using -1 as a placeholder. -->
   <arg name="robot_frame" default="robot_end_effector"/>
@@ -8,6 +9,7 @@
 
   <node pkg="zivid_camera" exec="zivid_camera" name="zivid_camera" />
   <node pkg="zivid_samples" exec="$(var sample)" name="zivid_sample">
+    <param name="operation" value="$(var operation)"/>
     <param name="hand_eye_mode" value="$(var hand_eye_mode)"/>
     <param name="aruco_ids" value="$(var aruco_ids)"/>
     <param name="robot_frame" value="$(var robot_frame)"/>
